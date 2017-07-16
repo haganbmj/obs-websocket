@@ -1,0 +1,754 @@
+{
+  "events": [
+    {
+      "category": "scenes",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Indicates a scene change.",
+          "return": [
+            "{String} `scene-name` The new scene.",
+            "{Array} `sources` List of sources in the new scene."
+          ],
+          "api": "events",
+          "name": "OnSceneChange",
+          "category": "scenes",
+          "returns": [
+            {
+              "type": "String",
+              "name": "scene-name",
+              "description": "The new scene."
+            },
+            {
+              "type": "Array",
+              "name": "sources",
+              "description": "List of sources in the new scene."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "OnSceneChange"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "scenes"
+            }
+          ],
+          "comment": {
+            "begin": 593,
+            "end": 611,
+            "code": "void WSEvents::OnSceneChange()",
+            "content": "Indicates a scene change.\n\n@return {String} `scene-name` The new scene.\n@return {Array} `sources` List of sources in the new scene.\n\n@api events\n@name OnSceneChange\n@category scenes\n",
+            "codeStart": 613
+          },
+          "context": {
+            "begin": 613
+          },
+          "heading": {
+            "level": 2,
+            "text": "OnSceneChange"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "category": "general",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Returns the latest version of the plugin and the API.",
+          "return": [
+            "{double} `version` OBSRemote compatible API version. Fixed to 1.1 for retrocompatibility.",
+            "{String} `obs-websocket-version` obs-websocket plugin version.",
+            "{String} `obs-studio-version` OBS Studio program version."
+          ],
+          "api": "requests",
+          "name": "GetVersion",
+          "category": "general",
+          "returns": [
+            {
+              "type": "double",
+              "name": "version",
+              "description": "OBSRemote compatible API version. Fixed to 1.1 for retrocompatibility."
+            },
+            {
+              "type": "String",
+              "name": "obs-websocket-version",
+              "description": "obs-websocket plugin version."
+            },
+            {
+              "type": "String",
+              "name": "obs-studio-version",
+              "description": "OBS Studio program version."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "GetVersion"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "general"
+            }
+          ],
+          "comment": {
+            "begin": 405,
+            "end": 425,
+            "code": "void WSRequestHandler::HandleGetVersion(WSRequestHandler* req)",
+            "content": "Returns the latest version of the plugin and the API.\n\n@return {double} `version` OBSRemote compatible API version. Fixed to 1.1 for retrocompatibility.\n@return {String} `obs-websocket-version` obs-websocket plugin version.\n@return {String} `obs-studio-version` OBS Studio program version.\n\n@api requests\n@name GetVersion\n@category general\n",
+            "codeStart": 427
+          },
+          "context": {
+            "begin": 427
+          },
+          "heading": {
+            "level": 2,
+            "text": "GetVersion"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        },
+        {
+          "subheads": [],
+          "description": "Tells the client if authentication is required. If so, returns authentication parameters `challenge` and `salt` (see \"Authentication\" for more information).",
+          "return": [
+            "{boolean} `authRequired` Indicates whether authentication is required.",
+            "{String (optional)} `challenge`",
+            "{String (optional)} `salt`"
+          ],
+          "api": "requests",
+          "name": "GetAuthRequired",
+          "category": "general",
+          "returns": [
+            {
+              "type": "boolean",
+              "name": "authRequired",
+              "description": "Indicates whether authentication is required."
+            },
+            {
+              "type": "String (optional)",
+              "name": "challenge",
+              "description": ""
+            },
+            {
+              "type": "String (optional)",
+              "name": "salt",
+              "description": ""
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "GetAuthRequired"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "general"
+            }
+          ],
+          "comment": {
+            "begin": 457,
+            "end": 477,
+            "code": "void WSRequestHandler::HandleGetAuthRequired(WSRequestHandler* req)",
+            "content": "Tells the client if authentication is required. If so, returns authentication parameters `challenge` and `salt` (see \"Authentication\" for more information).\n\n@return {boolean} `authRequired` Indicates whether authentication is required.\n@return {String (optional)} `challenge`\n@return {String (optional)} `salt`\n\n@api requests\n@name GetAuthRequired\n@category general\n",
+            "codeStart": 479
+          },
+          "context": {
+            "begin": 479
+          },
+          "heading": {
+            "level": 2,
+            "text": "GetAuthRequired"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        },
+        {
+          "subheads": [],
+          "description": "Attempt to authenticate the client to the server.",
+          "param": "{String} `auth` Response to the auth challenge (see \"Authentication\" for more information).",
+          "api": "requests",
+          "name": "Authenticate",
+          "category": "general",
+          "params": [
+            {
+              "type": "String",
+              "name": "auth",
+              "description": "Response to the auth challenge (see \"Authentication\" for more information)."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "Authenticate"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "general"
+            }
+          ],
+          "comment": {
+            "begin": 519,
+            "end": 535,
+            "code": "void WSRequestHandler::HandleAuthenticate(WSRequestHandler* req)",
+            "content": "Attempt to authenticate the client to the server.\n\n@param {String} `auth` Response to the auth challenge (see \"Authentication\" for more information).\n\n@api requests\n@name Authenticate\n@category general\n",
+            "codeStart": 537
+          },
+          "context": {
+            "begin": 537
+          },
+          "heading": {
+            "level": 2,
+            "text": "Authenticate"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    },
+    {
+      "category": "scenes",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Switch to the specified scene.",
+          "param": "{String} `scene-name` Name of the scene to switch to.",
+          "api": "requests",
+          "name": "SetCurrentScene",
+          "category": "scenes",
+          "params": [
+            {
+              "type": "String",
+              "name": "scene-name",
+              "description": "Name of the scene to switch to."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "SetCurrentScene"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "scenes"
+            }
+          ],
+          "comment": {
+            "begin": 591,
+            "end": 607,
+            "code": "void WSRequestHandler::HandleSetCurrentScene(WSRequestHandler* req)",
+            "content": "Switch to the specified scene.\n\n@param {String} `scene-name` Name of the scene to switch to.\n\n@api requests\n@name SetCurrentScene\n@category scenes\n",
+            "codeStart": 609
+          },
+          "context": {
+            "begin": 609
+          },
+          "heading": {
+            "level": 2,
+            "text": "SetCurrentScene"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        },
+        {
+          "subheads": [],
+          "description": "Get the current scene's name and source items.",
+          "return": [
+            "{String} `name` Name of the currently active scene.",
+            "{Source|Array} `sources` Ordered list of the current scene's source items."
+          ],
+          "api": "requests",
+          "name": "GetCurrentScene",
+          "category": "scenes",
+          "returns": [
+            {
+              "type": "String",
+              "name": "name",
+              "description": "Name of the currently active scene."
+            },
+            {
+              "type": "Source|Array",
+              "name": "sources",
+              "description": "Ordered list of the current scene's source items."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "GetCurrentScene"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "scenes"
+            }
+          ],
+          "comment": {
+            "begin": 657,
+            "end": 675,
+            "code": "void WSRequestHandler::HandleGetCurrentScene(WSRequestHandler* req)",
+            "content": "Get the current scene's name and source items.\n\n@return {String} `name` Name of the currently active scene.\n@return {Source|Array} `sources` Ordered list of the current scene's source items.\n\n@api requests\n@name GetCurrentScene\n@category scenes\n",
+            "codeStart": 677
+          },
+          "context": {
+            "begin": 677
+          },
+          "heading": {
+            "level": 2,
+            "text": "GetCurrentScene"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        },
+        {
+          "subheads": [],
+          "description": "Get a list of scenes in the currently active profile.",
+          "return": [
+            "{String} `current-scene` Name of the currently active scene.",
+            "{Scene|Array} `scenes` Ordered list of the current profile's scenes (See `[GetCurrentScene](#getcurrentscene)` for more information)."
+          ],
+          "api": "requests",
+          "name": "GetSceneList",
+          "category": "scenes",
+          "returns": [
+            {
+              "type": "String",
+              "name": "current-scene",
+              "description": "Name of the currently active scene."
+            },
+            {
+              "type": "Scene|Array",
+              "name": "scenes",
+              "description": "Ordered list of the current profile's scenes (See `[GetCurrentScene](#getcurrentscene)` for more information)."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "GetSceneList"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "scenes"
+            }
+          ],
+          "comment": {
+            "begin": 713,
+            "end": 731,
+            "code": "void WSRequestHandler::HandleGetSceneList(WSRequestHandler* req)",
+            "content": "Get a list of scenes in the currently active profile.\n\n@return {String} `current-scene` Name of the currently active scene.\n@return {Scene|Array} `scenes` Ordered list of the current profile's scenes (See `[GetCurrentScene](#getcurrentscene)` for more information).\n\n@api requests\n@name GetSceneList\n@category scenes\n",
+            "codeStart": 733
+          },
+          "context": {
+            "begin": 733
+          },
+          "heading": {
+            "level": 2,
+            "text": "GetSceneList"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    },
+    {
+      "category": "sources",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Show or hide a specified source item in a specified scene.",
+          "param": [
+            "{String} `source` Name of the source in the specified scene.",
+            "{boolean} `render` Desired visibility.",
+            "{String (optional)} `scene-name` Name of the scene where the source resides. Defaults to the currently active scene."
+          ],
+          "api": "requests",
+          "name": "SetSourceRender",
+          "category": "sources",
+          "params": [
+            {
+              "type": "String",
+              "name": "source",
+              "description": "Name of the source in the specified scene."
+            },
+            {
+              "type": "boolean",
+              "name": "render",
+              "description": "Desired visibility."
+            },
+            {
+              "type": "String (optional)",
+              "name": "scene-name",
+              "description": "Name of the scene where the source resides. Defaults to the currently active scene."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "SetSourceRender"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "sources"
+            }
+          ],
+          "comment": {
+            "begin": 767,
+            "end": 787,
+            "code": "void WSRequestHandler::HandleSetSceneItemRender(WSRequestHandler* req)",
+            "content": "Show or hide a specified source item in a specified scene.\n\n@param {String} `source` Name of the source in the specified scene.\n@param {boolean} `render` Desired visibility.\n@param {String (optional)} `scene-name` Name of the scene where the source resides. Defaults to the currently active scene.\n\n@api requests\n@name SetSourceRender\n@category sources\n",
+            "codeStart": 789
+          },
+          "context": {
+            "begin": 789
+          },
+          "heading": {
+            "level": 2,
+            "text": "SetSourceRender"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    },
+    {
+      "category": "streaming",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Get current streaming and recording status.",
+          "return": [
+            "{boolean} `streaming` Current streaming status.",
+            "{boolean} `recording` Current recording status.",
+            "{String (optional)} `stream-timecode` Time elapsed since streaming started (only present if currently streaming).",
+            "{String (optional)} `rec-timecode` Time elapsed since recording started (only present if currently recording).",
+            "{boolean} `preview-only` Always false. Retrocompatibility with OBSRemote."
+          ],
+          "api": "requests",
+          "name": "GetStreamingStatus",
+          "category": "streaming",
+          "returns": [
+            {
+              "type": "boolean",
+              "name": "streaming",
+              "description": "Current streaming status."
+            },
+            {
+              "type": "boolean",
+              "name": "recording",
+              "description": "Current recording status."
+            },
+            {
+              "type": "String (optional)",
+              "name": "stream-timecode",
+              "description": "Time elapsed since streaming started (only present if currently streaming)."
+            },
+            {
+              "type": "String (optional)",
+              "name": "rec-timecode",
+              "description": "Time elapsed since recording started (only present if currently recording)."
+            },
+            {
+              "type": "boolean",
+              "name": "preview-only",
+              "description": "Always false. Retrocompatibility with OBSRemote."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "GetStreamingStatus"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "streaming"
+            }
+          ],
+          "comment": {
+            "begin": 869,
+            "end": 893,
+            "code": "void WSRequestHandler::HandleGetStreamingStatus(WSRequestHandler* req)",
+            "content": "Get current streaming and recording status.\n\n@return {boolean} `streaming` Current streaming status.\n@return {boolean} `recording` Current recording status.\n@return {String (optional)} `stream-timecode` Time elapsed since streaming started (only present if currently streaming).\n@return {String (optional)} `rec-timecode` Time elapsed since recording started (only present if currently recording).\n@return {boolean} `preview-only` Always false. Retrocompatibility with OBSRemote.\n\n@api requests\n@name GetStreamingStatus\n@category streaming\n",
+            "codeStart": 895
+          },
+          "context": {
+            "begin": 895
+          },
+          "heading": {
+            "level": 2,
+            "text": "GetStreamingStatus"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    },
+    {
+      "category": "scene collections",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Get a list of available scene collections.",
+          "return": "{String|Array} `scene-collections` String list of available scene collections.",
+          "api": "requests",
+          "name": "ListSceneCollections",
+          "category": "scene collections",
+          "returns": [
+            {
+              "type": "String|Array",
+              "name": "scene-collections",
+              "description": "String list of available scene collections."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "ListSceneCollections"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "scene collections"
+            }
+          ],
+          "comment": {
+            "begin": 2101,
+            "end": 2117,
+            "code": "void WSRequestHandler::HandleListSceneCollections(WSRequestHandler* req)",
+            "content": "Get a list of available scene collections.\n\n@return {String|Array} `scene-collections` String list of available scene collections.\n\n@api requests\n@name ListSceneCollections\n@category scene collections\n",
+            "codeStart": 2119
+          },
+          "context": {
+            "begin": 2119
+          },
+          "heading": {
+            "level": 2,
+            "text": "ListSceneCollections"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    },
+    {
+      "category": "profiles",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Set the currently active profile.",
+          "param": "{String} `profile-name` Name of the desired profile.",
+          "api": "requests",
+          "name": "SetCurrentProfile",
+          "category": "profiles",
+          "params": [
+            {
+              "type": "String",
+              "name": "profile-name",
+              "description": "Name of the desired profile."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "SetCurrentProfile"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "profiles"
+            }
+          ],
+          "comment": {
+            "begin": 2145,
+            "end": 2161,
+            "code": "void WSRequestHandler::HandleSetCurrentProfile(WSRequestHandler* req)",
+            "content": "Set the currently active profile.\n\n@param {String} `profile-name` Name of the desired profile.\n\n@api requests\n@name SetCurrentProfile\n@category profiles\n",
+            "codeStart": 2163
+          },
+          "context": {
+            "begin": 2163
+          },
+          "heading": {
+            "level": 2,
+            "text": "SetCurrentProfile"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        },
+        {
+          "subheads": [],
+          "description": "Get the name of the current profile.",
+          "return": "{String} `profile-name` Name of the currently active profile.",
+          "api": "requests",
+          "name": "GetCurrentProfile",
+          "category": "profiles",
+          "returns": [
+            {
+              "type": "String",
+              "name": "profile-name",
+              "description": "Name of the currently active profile."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "GetCurrentProfile"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "profiles"
+            }
+          ],
+          "comment": {
+            "begin": 2207,
+            "end": 2223,
+            "code": "void WSRequestHandler::HandleGetCurrentProfile(WSRequestHandler* req)",
+            "content": "Get the name of the current profile.\n\n@return {String} `profile-name` Name of the currently active profile.\n\n@api requests\n@name GetCurrentProfile\n@category profiles\n",
+            "codeStart": 2225
+          },
+          "context": {
+            "begin": 2225
+          },
+          "heading": {
+            "level": 2,
+            "text": "GetCurrentProfile"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    },
+    {
+      "category": "settings",
+      "items": [
+        {
+          "subheads": [],
+          "description": "Sets one or more attributes of the current streaming server settings. Any options not passed will remain unchanged. Returns the updated settings in response. If 'type' is different than the current streaming service type, all settings are required. Returns the full settings of the stream (the same as GetStreamSettings).",
+          "param": [
+            "{String} `type` The type of streaming service configuration, usually `rtmp_custom` or `rtmp_common`.",
+            "{Object} `settings` The actual settings of the stream.",
+            "{String (optional)} `settings.server` The publish URL.",
+            "{String (optional)} `settings.key` The publish key.",
+            "{boolean (optional)} `settings.use-auth` Indicates whether authentication should be used when connecting to the streaming server.",
+            "{String (optional)} `settings.username` The username for the streaming service.",
+            "{String (optional)} `settings.password` The password for the streaming service.",
+            "{boolean} `save` Persist the settings to disk."
+          ],
+          "api": "requests",
+          "name": "SetStreamingSettings",
+          "category": "settings",
+          "params": [
+            {
+              "type": "String",
+              "name": "type",
+              "description": "The type of streaming service configuration, usually `rtmp_custom` or `rtmp_common`."
+            },
+            {
+              "type": "Object",
+              "name": "settings",
+              "description": "The actual settings of the stream."
+            },
+            {
+              "type": "String (optional)",
+              "name": "settings.server",
+              "description": "The publish URL."
+            },
+            {
+              "type": "String (optional)",
+              "name": "settings.key",
+              "description": "The publish key."
+            },
+            {
+              "type": "boolean (optional)",
+              "name": "settings.use-auth",
+              "description": "Indicates whether authentication should be used when connecting to the streaming server."
+            },
+            {
+              "type": "String (optional)",
+              "name": "settings.username",
+              "description": "The username for the streaming service."
+            },
+            {
+              "type": "String (optional)",
+              "name": "settings.password",
+              "description": "The password for the streaming service."
+            },
+            {
+              "type": "boolean",
+              "name": "save",
+              "description": "Persist the settings to disk."
+            }
+          ],
+          "names": [
+            {
+              "name": "",
+              "description": "SetStreamingSettings"
+            }
+          ],
+          "categories": [
+            {
+              "name": "",
+              "description": "settings"
+            }
+          ],
+          "comment": {
+            "begin": 2247,
+            "end": 2277,
+            "code": "void WSRequestHandler::HandleSetStreamSettings(WSRequestHandler* req)",
+            "content": "Sets one or more attributes of the current streaming server settings. Any options not passed will remain unchanged. Returns the updated settings in response. If 'type' is different than the current streaming service type, all settings are required. Returns the full settings of the stream (the same as GetStreamSettings).\n\n@param {String} `type` The type of streaming service configuration, usually `rtmp_custom` or `rtmp_common`.\n@param {Object} `settings` The actual settings of the stream.\n@param {String (optional)} `settings.server` The publish URL.\n@param {String (optional)} `settings.key` The publish key.\n@param {boolean (optional)} `settings.use-auth` Indicates whether authentication should be used when connecting to the streaming server.\n@param {String (optional)} `settings.username` The username for the streaming service.\n@param {String (optional)} `settings.password` The password for the streaming service.\n@param {boolean} `save` Persist the settings to disk.\n\n@api requests\n@name SetStreamingSettings\n@category settings\n",
+            "codeStart": 2279
+          },
+          "context": {
+            "begin": 2279
+          },
+          "heading": {
+            "level": 2,
+            "text": "SetStreamingSettings"
+          },
+          "lead": "",
+          "type": "class",
+          "examples": []
+        }
+      ]
+    }
+  ]
+}

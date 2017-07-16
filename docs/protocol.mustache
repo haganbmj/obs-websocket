@@ -1,0 +1,116 @@
+<!DOCTYPE md>
+# obs-websocket 4.1 protocol reference
+
+**This is the reference for the latest 4.1 developement build. [See here for obs-websocket 4.0.0!](https://github.com/Palakis/obs-websocket/blob/4.0.0/PROTOCOL.md)**
+
+
+# Table of Contents
+<!-- toc -->
+
+
+# General Introduction
+Messages exchanged between the client and the server are JSON objects.  
+The protocol in general is based on the OBS Remote protocol created by Bill Hamilton, with new commands specific to OBS Studio.
+
+
+# Authentication
+A call to [`GetAuthRequired`](#getauthrequired) gives the client two elements:
+- A `challenge`: a random string that will be used to generate the auth response
+- A `salt`: applied to the password when generating the auth response
+
+The client knows a password and must it to authenticate itself to the server.  
+However, it must keep this password secret, and it is the purpose of the authentication mecanism used by obs-websocket.
+
+After a call to [`GetAuthRequired`](#getauthrequired), the client knows a password (kept secret), a challenge and a salt (sent by the server).
+To generate the answer to the auth challenge, follow this procedure:
+- Concatenate the password with the salt sent by the server (in this order: password + server salt), then generate a binary SHA256 hash of the result and encode the resulting SHA256 binary hash to base64.
+- Concatenate the base64 secret with the challenge sent by the server (in this order: base64 secret + server challenge), then generate a binary SHA256 hash of the result and encode it to base64.
+- Voilà, this last base64 string is the auth response. You may now use it to authenticate to the server with the `Authenticate` request.
+
+Here's how it looks in pseudocode:
+```
+password = "supersecretpassword"
+challenge = "ztTBnnuqrqaKDzRM3xcVdbYm"
+salt = "PZVbYpvAnZut2SS6JNJytDm9"
+
+secret_string = password + salt
+secret_hash = binary_sha256(secret_string)
+secret = base64_encode(secret_hash)
+
+auth_response_string = secret + challenge
+auth_response_hash = binary_sha256(auth_response_string)
+auth_response = base64_encode(auth_response_hash)
+```
+
+A client can then authenticate to the server by calling [`Authenticate`](#authenticate) with the computed challenge response.
+
+
+# Events
+Events are sent exclusively by the server and broadcast to each connected client.  
+An event message will contain at least one field:
+- **update-type** _String_: the type of event
+- **stream-timecode** _String (optional)_: time elapsed between now and stream start (only present if OBS Studio is streaming)
+- **rec-timecode** _String (optional)_: time elapsed between now and recording start (only present if OBS Studio is recording)
+
+Timecodes are in the following format: HH:MM:SS.mmm
+
+Additional fields will be present in the event message depending on the event type.
+
+
+{{#events}}
+## Category: {{#capitalize}}{{category}}{{/capitalize}}
+
+{{#items}}
+### {{{name}}}
+__Category__: {{#capitalize}}{{category}}{{/capitalize}}  
+{{description}}
+
+__Response Items__:  
+{{#returns}}
+- `{{name}}` _{{type}}_: {{description}}  
+{{/returns}}
+{{^returns}}_No additional response items._{{/returns}}
+
+---
+{{/items}}
+{{/events}}
+
+
+# Requests
+Requests are sent by the client and must have at least the following two fields:  
+- `request-type` _String_: String name of the request type.
+- `message-id` _String_: Client defined identifier for the message, will be echoed in the response.
+
+Depending on the request type additional fields may be required (see the requests below for more information).
+
+Once a request is sent, the server will return a JSON response with the following fields:  
+- `message-id` _String_: The identifier specified in the request.
+- `status` _String_: Response status, will be one of the following: `ok`, `error`
+- `error` _String_: The error message associated with an `error` status.  
+
+Depending on the request type additional fields may be present (see the "[Request Types](#request-types)" section below for more information).
+
+
+{{#requests}}
+## Category: {{#capitalize}}{{category}}{{/capitalize}}
+
+{{#items}}
+### {{name}} 
+__Category__: {{#capitalize}}{{category}}{{/capitalize}}  
+{{description}}  
+
+__Request Fields__:  
+{{#params}}
+- `{{name}}` _{{type}}_: {{description}}  
+{{/params}}
+{{^params}}_No required parameters._{{/params}}
+
+__Response Items__:  
+{{#returns}}
+- `{{name}}` _{{type}}_: {{description}}  
+{{/returns}}
+{{^returns}}_No additional response items._{{/returns}}
+
+---
+{{/items}}
+{{/requests}}

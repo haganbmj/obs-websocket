@@ -5,3 +5,8 @@
 /build64/
 /release/
 /installer/Output/
+
+node_modules
+logs
+*.log
+npm-debug.log*

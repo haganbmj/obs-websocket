@@ -1,21 +1,21 @@
-/*
-obs-websocket
-Copyright (C) 2016-2017	Stéphane Lepin <stephane.lepin@gmail.com>
-Copyright (C) 2017	Brendan Hagan <https://github.com/haganbmj>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with this program. If not, see <https://www.gnu.org/licenses/>
-*/
+/**
+ * obs-websocket
+ * Copyright (C) 2016-2017	Stéphane Lepin <stephane.lepin@gmail.com>
+ * Copyright (C) 2017	Brendan Hagan <https://github.com/haganbmj>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <https://www.gnu.org/licenses/>
+ */
 
 #include <util/platform.h>
 #include <QTimer>
@@ -294,6 +294,16 @@ const char* WSEvents::GetRecordingTimecode()
 	return ns_to_timestamp(GetRecordingTime());
 }
 
+/**
+ * Indicates a scene change.
+ * 
+ * @return {String} `scene-name` The new scene.
+ * @return {Array} `sources` List of sources in the new scene.
+ *
+ * @api events
+ * @name OnSceneChange
+ * @category scenes
+ */
 void WSEvents::OnSceneChange()
 {
 	// Implements an existing update type from bilhamil's OBS Remote

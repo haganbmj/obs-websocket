@@ -1,21 +1,21 @@
-/*
-obs-websocket
-Copyright (C) 2016-2017	Stéphane Lepin <stephane.lepin@gmail.com>
-Copyright (C) 2017	Mikhail Swift <https://github.com/mikhailswift>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with this program. If not, see <https://www.gnu.org/licenses/>
-*/
+/**
+ * obs-websocket
+ * Copyright (C) 2016-2017	Stéphane Lepin <stephane.lepin@gmail.com>
+ * Copyright (C) 2017	Brendan Hagan <https://github.com/haganbmj>
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program. If not, see <https://www.gnu.org/licenses/>
+ */
 
 #include <obs-data.h>
 #include "WSRequestHandler.h"
@@ -200,6 +200,17 @@ bool WSRequestHandler::hasField(const char* name)
 	return obs_data_has_user_value(data, name);
 }
 
+/**
+ * Returns the latest version of the plugin and the API.
+ * 
+ * @return {double} `version` OBSRemote compatible API version. Fixed to 1.1 for retrocompatibility.
+ * @return {String} `obs-websocket-version` obs-websocket plugin version.
+ * @return {String} `obs-studio-version` OBS Studio program version.
+ * 
+ * @api requests
+ * @name GetVersion
+ * @category general
+ */
 void WSRequestHandler::HandleGetVersion(WSRequestHandler* req)
 {
 	const char* obs_version = Utils::OBSVersionString();
@@ -215,6 +226,17 @@ void WSRequestHandler::HandleGetVersion(WSRequestHandler* req)
 	bfree((void*)obs_version);
 }
 
+/**
+ * Tells the client if authentication is required. If so, returns authentication parameters `challenge` and `salt` (see "Authentication" for more information).
+ * 
+ * @return {boolean} `authRequired` Indicates whether authentication is required.
+ * @return {String (optional)} `challenge` 
+ * @return {String (optional)} `salt` 
+ * 
+ * @api requests
+ * @name GetAuthRequired
+ * @category general
+ */
 void WSRequestHandler::HandleGetAuthRequired(WSRequestHandler* req)
 {
 	bool authRequired = Config::Current()->AuthRequired;
@@ -235,6 +257,15 @@ void WSRequestHandler::HandleGetAuthRequired(WSRequestHandler* req)
 	obs_data_release(data);
 }
 
+/**
+ * Attempt to authenticate the client to the server.
+ * 
+ * @param {String} `auth` Response to the auth challenge (see "Authentication" for more information).
+ *
+ * @api requests
+ * @name Authenticate
+ * @category general
+ */
 void WSRequestHandler::HandleAuthenticate(WSRequestHandler* req)
 {
 	if (!req->hasField("auth"))
@@ -262,6 +293,15 @@ void WSRequestHandler::HandleAuthenticate(WSRequestHandler* req)
 	}
 }
 
+/**
+ * Switch to the specified scene.
+ * 
+ * @param {String} `scene-name` Name of the scene to switch to.
+ *
+ * @api requests
+ * @name SetCurrentScene
+ * @category scenes
+ */
 void WSRequestHandler::HandleSetCurrentScene(WSRequestHandler* req)
 {
 	if (!req->hasField("scene-name"))
@@ -286,6 +326,16 @@ void WSRequestHandler::HandleSetCurrentScene(WSRequestHandler* req)
 	obs_source_release(source);
 }
 
+/**
+ * Get the current scene's name and source items.
+ * 
+ * @return {String} `name` Name of the currently active scene.
+ * @return {Source|Array} `sources` Ordered list of the current scene's source items.
+ *
+ * @api requests
+ * @name GetCurrentScene
+ * @category scenes
+ */
 void WSRequestHandler::HandleGetCurrentScene(WSRequestHandler* req)
 {
 	obs_source_t* current_scene = obs_frontend_get_current_scene();
@@ -304,6 +354,16 @@ void WSRequestHandler::HandleGetCurrentScene(WSRequestHandler* req)
 	obs_source_release(current_scene);
 }
 
+/**
+ * Get a list of scenes in the currently active profile.
+ * 
+ * @return {String} `current-scene` Name of the currently active scene.
+ * @return {Scene|Array} `scenes` Ordered list of the current profile's scenes (See `[GetCurrentScene](#getcurrentscene)` for more information).
+ *
+ * @api requests
+ * @name GetSceneList
+ * @category scenes
+ */
 void WSRequestHandler::HandleGetSceneList(WSRequestHandler* req)
 {
 	obs_source_t* current_scene = obs_frontend_get_current_scene();
@@ -321,6 +381,17 @@ void WSRequestHandler::HandleGetSceneList(WSRequestHandler* req)
 	obs_source_release(current_scene);
 }
 
+/**
+ * Show or hide a specified source item in a specified scene.
+ * 
+ * @param {String} `source` Name of the source in the specified scene.
+ * @param {boolean} `render` Desired visibility.
+ * @param {String (optional)} `scene-name` Name of the scene where the source resides. Defaults to the currently active scene.
+ *
+ * @api requests
+ * @name SetSourceRender
+ * @category sources
+ */
 void WSRequestHandler::HandleSetSceneItemRender(WSRequestHandler* req)
 {
 	if (!req->hasField("source") ||
@@ -361,6 +432,19 @@ void WSRequestHandler::HandleSetSceneItemRender(WSRequestHandler* req)
 	obs_source_release(scene);
 }
 
+/**
+ * Get current streaming and recording status.
+ * 
+ * @return {boolean} `streaming` Current streaming status.
+ * @return {boolean} `recording` Current recording status.
+ * @return {String (optional)} `stream-timecode` Time elapsed since streaming started (only present if currently streaming).
+ * @return {String (optional)} `rec-timecode` Time elapsed since recording started (only present if currently recording).
+ * @return {boolean} `preview-only` Always false. Retrocompatibility with OBSRemote.
+ *
+ * @api requests
+ * @name GetStreamingStatus
+ * @category streaming
+ */
 void WSRequestHandler::HandleGetStreamingStatus(WSRequestHandler* req)
 {
 	obs_data_t* data = obs_data_create();
@@ -964,6 +1048,15 @@ void WSRequestHandler::HandleGetCurrentSceneCollection(WSRequestHandler* req)
 	obs_data_release(response);
 }
 
+/**
+ * Get a list of available scene collections.
+ * 
+ * @return {String|Array} `scene-collections` String list of available scene collections.
+ *
+ * @api requests
+ * @name ListSceneCollections
+ * @category scene collections
+ */
 void WSRequestHandler::HandleListSceneCollections(WSRequestHandler* req)
 {
 	obs_data_array_t* scene_collections = Utils::GetSceneCollections();
@@ -977,6 +1070,15 @@ void WSRequestHandler::HandleListSceneCollections(WSRequestHandler* req)
 	obs_data_array_release(scene_collections);
 }
 
+/**
+ * Set the currently active profile.
+ * 
+ * @param {String} `profile-name` Name of the desired profile.
+ *
+ * @api requests
+ * @name SetCurrentProfile
+ * @category profiles
+ */
 void WSRequestHandler::HandleSetCurrentProfile(WSRequestHandler* req)
 {
 	if (!req->hasField("profile-name"))
@@ -999,6 +1101,15 @@ void WSRequestHandler::HandleSetCurrentProfile(WSRequestHandler* req)
 	}
 }
 
+/**
+ * Get the name of the current profile.
+ * 
+ * @return {String} `profile-name` Name of the currently active profile.
+ *
+ * @api requests
+ * @name GetCurrentProfile
+ * @category profiles
+ */
 void WSRequestHandler::HandleGetCurrentProfile(WSRequestHandler* req)
 {
 	obs_data_t* response = obs_data_create();
@@ -1010,6 +1121,22 @@ void WSRequestHandler::HandleGetCurrentProfile(WSRequestHandler* req)
 	obs_data_release(response);
 }
 
+/**
+ * Sets one or more attributes of the current streaming server settings. Any options not passed will remain unchanged. Returns the updated settings in response. If 'type' is different than the current streaming service type, all settings are required. Returns the full settings of the stream (the same as GetStreamSettings).
+ * 
+ * @param {String} `type` The type of streaming service configuration, usually `rtmp_custom` or `rtmp_common`.
+ * @param {Object} `settings` The actual settings of the stream.
+ * @param {String (optional)} `settings.server` The publish URL.
+ * @param {String (optional)} `settings.key` The publish key.
+ * @param {boolean (optional)} `settings.use-auth` Indicates whether authentication should be used when connecting to the streaming server.
+ * @param {String (optional)} `settings.username` The username for the streaming service.
+ * @param {String (optional)} `settings.password` The password for the streaming service.
+ * @param {boolean} `save` Persist the settings to disk.
+ *
+ * @api requests
+ * @name SetStreamingSettings
+ * @category settings
+ */
 void WSRequestHandler::HandleSetStreamSettings(WSRequestHandler* req)
 {
 	obs_service_t* service = obs_frontend_get_streaming_service();

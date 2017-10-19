@@ -2,7 +2,7 @@ obs-websocket
 ==============
 Remote control of OBS Studio made easy.
 
-Follow the project on Twitter for news & updates : [@obswebsocket](https://twitter.com/obswebsocket)
+Follow the project on Twitter for news & updates: [@obswebsocket](https://twitter.com/obswebsocket)
 
 [![Gitter chat](https://badges.gitter.im/obs-websocket/obs-websocket.png)](https://gitter.im/obs-websocket/obs-websocket) [![Build Status - Windows](https://ci.appveyor.com/api/projects/status/github/Palakis/obs-websocket)](https://ci.appveyor.com/project/Palakis/obs-websocket/history) [![Build Status - Linux & OS X](https://travis-ci.org/Palakis/obs-websocket.svg?branch=master)](https://travis-ci.org/Palakis/obs-websocket)
 

@@ -45,3 +45,7 @@ test: off
 
 cache:
   - C:\projects\dependencies2013.zip
+  - C:\projects\obs-studio\build32\libobs\%build_config%\obs.lib
+  - C:\projects\obs-studio\build64\libobs\%build_config%\obs.lib
+  - C:\projects\obs-studio\build32\UI\obs-frontend-api\%build_config%\obs-frontend-api.lib
+  - C:\projects\obs-studio\build64\UI\obs-frontend-api\%build_config%\obs-frontend-api.lib
